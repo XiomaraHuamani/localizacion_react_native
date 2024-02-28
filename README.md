@@ -1,1 +1,1 @@
-# localizacion_react_native
+# comandos para inicializar
