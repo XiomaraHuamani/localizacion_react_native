@@ -1,59 +1,37 @@
 import React from "react";
+//Icons
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { TouchableOpacity } from "react-native-gesture-handler";
+
 import { StyleSheet, View, Image, Text, useColorScheme } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
-const tweetActions = (retweets, comments, likes) => {
+const tweetActions = (calificacion, distancia, costo) => {
   const theme = useColorScheme();
   return (
     <View style={[styles.rowActions, styles.actionBar]}>
+
       <View style={styles.elemAction}>
-        {/* <Image
+        <MaterialIcons
           style={styles.actionButton}
-          source={require("../assets/comment.png")}
-        /> */}
-        <EvilIcons
-          style={styles.actionButton}
-          name="comment"
+          name="star"
           size={21}
-          color={theme === "dark" ? "gray" : "#000"}
+          color="#ffd700"
         />
-        <Text style={styles.actionText}>{comments}</Text>
+        <Text style={styles.actionText}>{calificacion}</Text>
       </View>
+
       <View style={styles.elemAction}>
-        {/* <Image
-          style={styles.actionButton}
-          source={require("../assets/retweet.png")}
-        /> */}
-        <EvilIcons
-          style={styles.actionButton}
-          name="retweet"
-          size={22}
-          color={theme === "dark" ? "gray" : "#000"}
-        />
-        <Text style={styles.actionText}>{retweets}</Text>
+        <Text style={[styles.actionText]}>•{distancia}</Text>
       </View>
+
       <View style={styles.elemAction}>
-        {/* <Image
-          style={styles.actionButton}
-          source={require("../assets/like.png")}
-        /> */}
-        <EvilIcons
-          style={styles.actionButton}
-          name="heart"
-          size={21}
-          color={theme === "dark" ? "gray" : "#000"}
-        />
-        <Text style={styles.actionText}>{likes}</Text>
+        <Text style={styles.actionText}>•{costo}</Text>
       </View>
-      {/* <Image
-        style={styles.actionButton}
-        source={require("../assets/share.png")}
-      /> */}
-      <EvilIcons
-        style={styles.actionButton}
-        name="share-apple"
-        size={23}
-        color={theme === "dark" ? "gray" : "#000"}
-      />
+      
     </View>
   );
 };
@@ -74,9 +52,11 @@ const GrayText = ({ children, numberOfLines, style }) => {
 const TweetContent = ({ tweet }) => {
   const theme = useColorScheme();
   return (
+    <React.Fragment>
+    
     <View style={styles.singleItem}>
       <View style={styles.row}>
-        {avatar(tweet.author)}
+      {avatar(tweet.author)}
         <View style={styles.tweetContentContainer}>
           <View style={styles.rowTop}>
             <Text
@@ -88,30 +68,26 @@ const TweetContent = ({ tweet }) => {
             >
               {tweet.author.name}
             </Text>
-            <GrayText style={styles.author} numberOfLines={1}>
-              @{tweet.author.screenName}
-            </GrayText>
-            <GrayText>·</GrayText>
-            <GrayText>2h</GrayText>
           </View>
           <Text
             style={[
               styles.description,
-              { color: theme === "dark" ? "#FFF" : "#000" },
+              { color: 'gray' },
             ]}
           >
-            {tweet.fullText}
+            {tweet.author.descripcion}
           </Text>
           <View style={styles.rowActions}>
             {tweetActions(
-              tweet.retweetCount,
-              tweet.replyCount,
-              tweet.favoriteCount
+              tweet.calificacion,
+              tweet.distancia,
+              tweet.costo
             )}
           </View>
         </View>
       </View>
     </View>
+    </React.Fragment>
   );
 };
 
@@ -120,44 +96,51 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   actionBar: {
-    marginTop: 8,
+    marginTop: 15,
     justifyContent: "space-between",
     marginRight: 16,
+    
   },
   actionButton: {
     width: 18,
     height: 18,
-    marginRight: 8,
+    marginRight: 5,
+    
   },
   gray: {
     color: "#777",
     fontSize: 13,
-    paddingRight: 2,
+    paddingRight: 0,
   },
   avatar: {
-    height: 44,
-    width: 44,
-    borderRadius: 22,
-    marginRight: 16,
-    flexShrink: 0,
-    marginTop: 4,
+    height: 120,
+    width: 120,
+    borderRadius: 12,
+    marginRight: 23,
+    //flexShrink: 0,
+    //marginTop: 4,
   },
   header: {
-    fontSize: 14,
-    fontWeight: "bold",
-    paddingBottom: 4,
+    fontSize: 18,
+    //fontWeight: "bold",
+    paddingBottom: 8,
     paddingRight: 4,
     color: "#000",
+    paddingTop: 13,
   },
   description: {
-    fontSize: 14,
-    color: "#000",
+    fontSize: 15,
   },
   singleItem: {
-    paddingHorizontal: 16,
-    minHeight: 44,
+    width: 339,
+    height: 120,
+    borderRadius: 12, 
+    backgroundColor: '#F8F8F8' ,
+    shadowOffset: { width: 0, height: 20 }, 
+    shadowOpacity: 0.5, 
+    paddingRight: 3,
+    elevation: 5,
     flex: 1,
-    padding: 16,
   },
   rowTop: {
     flexDirection: "row",
@@ -166,23 +149,30 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "space-between",
     flexDirection: "row",
+    paddingRight: 6,
+    paddingBottom: 13,
+    //backgroundColor: 'red',
   },
   row: {
     flexDirection: "row",
+    //backgroundColor: "green",
   },
   elemAction: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
+    //backgroundColor: "red",
   },
   actionText: {
-    fontSize: 12,
+    fontSize: 13,
     color: "#444",
+    
   },
   tweetContentContainer: {
     flexShrink: 1,
     flexGrow: 1,
   },
+  
 });
 
 export default TweetContent;

@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Pressable } from "react-native";
-import TweetContent from "./TweetContent";
+import TweetContent from "./ListaContent";
 
 const Tweet = ({ tweet }) => {
   const { navigate } = useNavigation();
